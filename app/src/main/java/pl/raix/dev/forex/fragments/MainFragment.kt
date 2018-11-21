@@ -1,4 +1,4 @@
-package pl.raix.dev.forex
+package pl.raix.dev.forex.fragments
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import pl.raix.dev.forex.R
+import pl.raix.dev.forex.activites.MainActivity
 import pl.raix.dev.forex.viewmodels.MainViewModel
 
 class MainFragment : Fragment() {
@@ -17,7 +19,8 @@ class MainFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.main_fragment, container, false)
@@ -28,5 +31,4 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }

@@ -1,7 +1,9 @@
-package pl.raix.dev.forex
+package pl.raix.dev.forex.activites
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import pl.raix.dev.forex.fragments.MainFragment
+import pl.raix.dev.forex.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,5 +16,4 @@ class MainActivity : AppCompatActivity() {
                 .commitNow()
         }
     }
-
 }

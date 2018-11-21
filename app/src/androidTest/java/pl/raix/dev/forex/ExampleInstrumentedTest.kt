@@ -1,3 +1,4 @@
+/* ktlint-disable no-wildcard-imports */
 package pl.raix.dev.forex
 
 import android.support.test.InstrumentationRegistry
