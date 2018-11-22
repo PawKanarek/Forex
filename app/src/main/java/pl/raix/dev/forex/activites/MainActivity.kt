@@ -1,19 +1,14 @@
 package pl.raix.dev.forex.activites
 
-import android.support.v7.app.AppCompatActivity
+import HttpManager
 import android.os.Bundle
-import pl.raix.dev.forex.fragments.MainFragment
-import pl.raix.dev.forex.R
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
-        }
+        //init singleton
+        HttpManager.getInstance(this.applicationContext).requestQueue
     }
 }
