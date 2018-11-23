@@ -1,17 +1,12 @@
 import android.content.Context
-import android.util.Log
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import pl.raix.dev.forex.api.GsonRequest
 import pl.raix.dev.forex.data.HistoricalResponse
-import pl.raix.dev.forex.fragments.FixerResponse
-import pl.raix.dev.forex.fragments.MainFragment
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.xml.transform.ErrorListener
 
 class HttpManager constructor(context: Context) {
     companion object {

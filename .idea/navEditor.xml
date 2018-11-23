@@ -8,25 +8,25 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="currencyFragment">
+                  <entry key="currency_fragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="297" />
-                            <option name="y" value="25" />
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="mainFragment">
+                  <entry key="main_fragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="19" />
-                            <option name="y" value="32" />
+                            <option name="x" value="-251" />
+                            <option name="y" value="10" />
                           </Point>
                         </option>
                         <option name="myPositions">

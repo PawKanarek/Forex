@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable name="mainFragment"
-                  type="pl.raix.dev.forex.fragments.MainFragment"/>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".fragments.MainFragment">
-
+            android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/forex_historical_list"
                 android:layout_width="match_parent"
@@ -22,6 +15,6 @@
                 android:paddingRight="@dimen/margin_normal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:context="pl.raix.dev.forex.activites.MainActivity"
-                tools:listitem="@layout/list_item_plant" />
+                tools:listitem="@layout/list_item_currency" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

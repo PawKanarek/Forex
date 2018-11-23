@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
 import com.android.volley.Response
-import pl.raix.dev.forex.R
 import pl.raix.dev.forex.adapters.CurrencyAdapter
 import pl.raix.dev.forex.databinding.MainFragmentBinding
 import pl.raix.dev.forex.viewmodels.MainViewModel
@@ -31,41 +29,29 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = MainFragmentBinding.inflate(inflater, container, false)
-        binding.mainFragment = this
 
 //        val view = inflater.inflate(R.layout.main_fragment, container, false)
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         val adapter = CurrencyAdapter()
+        binding.forexHistoricalList.adapter = adapter
+
+        viewModel.getCurrency().observe(this, androidx.lifecycle.Observer { newList ->
+            if (newList != null) adapter.submitList(newList)
+        })
 
         HttpManager.getInstance(context!!).getHistorical(Calendar.getInstance().time,
             Response.Listener { response ->
                 Log.d(MainFragment.TAG, "Response: %s".format(response.toString()))
-
+                viewModel.getCurrency().value = response.rates
             }, Response.ErrorListener { error ->
-                // TODO: Handle error
+                Log.d(MainFragment.TAG, "error: %s".format(error.toString()))
             })
 
         // TODO: Use the ViewModel
 
         return binding.root
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-    }
-
-
-    /** Called when the user touches the button */
-    fun goToCurrency(view: View) {
-        NavHostFragment.findNavController(this).navigate(R.id.currencyFragment)
-        // Do something in response to button click
-    }
 }
 
-class FixerResponse {
-    val success: Boolean? = null;
-}
