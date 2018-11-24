@@ -23,35 +23,65 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = MainFragmentBinding.inflate(inflater, container, false)
-
-//        val view = inflater.inflate(R.layout.main_fragment, container, false)
-
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         val adapter = CurrencyAdapter()
+        adapter.loadMore = { loadMore() }
+
+        val binding = MainFragmentBinding.inflate(inflater, container, false)
         binding.forexHistoricalList.adapter = adapter
 
         viewModel.getCurrency().observe(this, androidx.lifecycle.Observer { newList ->
-            if (newList != null) adapter.submitList(newList)
+            if (newList != null) {
+                adapter.submitList(newList)
+                adapter.notifyDataSetChanged()
+            }
         })
 
-        HttpManager.getInstance(context!!).getHistorical(Calendar.getInstance().time,
-            Response.Listener { response ->
-                Log.d(MainFragment.TAG, "Response: %s".format(response.toString()))
-                viewModel.getCurrency().value = response.rates
-            }, Response.ErrorListener { error ->
-                Log.d(MainFragment.TAG, "error: %s".format(error.toString()))
-            })
-
-        // TODO: Use the ViewModel
+        getHistoricalRates(viewModel.currentDate)
 
         return binding.root
+    }
+
+    fun loadMore() {
+        if (viewModel.isDataLoading)
+            return
+
+        val calendar = Calendar.getInstance()
+        calendar.time = viewModel.currentDate
+        calendar.add(Calendar.DAY_OF_MONTH, -1)
+        getHistoricalRates(calendar.time)
+    }
+
+    fun getHistoricalRates(date: Date) {
+        viewModel.isDataLoading = true
+
+        HttpManager.getInstance(context!!).getHistorical(date,
+            Response.Listener { response ->
+                viewModel.isDataLoading = false
+
+                // TODO: use paging component from android-jetpack to avoid mutableList and notifyDataSetChanged in ViewModel observer
+                val currentData = viewModel.getCurrency().value
+                if (currentData == null) {
+                    viewModel.getCurrency().value = response.currencyList.toMutableList()
+                } else {
+                    currentData.addAll(response.currencyList)
+                    viewModel.getCurrency().value = currentData
+                }
+
+                viewModel.currentDate = date
+
+            }, Response.ErrorListener { error ->
+                viewModel.isDataLoading = false
+
+                Log.d(MainFragment.TAG, "error: %s".format(error.toString()))
+            })
     }
 }
 

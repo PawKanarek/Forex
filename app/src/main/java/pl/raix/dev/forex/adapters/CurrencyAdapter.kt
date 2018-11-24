@@ -9,20 +9,27 @@ import androidx.recyclerview.widget.RecyclerView
 import pl.raix.dev.forex.data.Currency
 import pl.raix.dev.forex.databinding.ListItemCurrencyBinding
 
-class CurrencyAdapter : ListAdapter<Currency, CurrencyAdapter.ViewHolder>(CurrencyDiffCallback()) {
+class CurrencyAdapter : ListAdapter<Currency, CurrencyAdapter.CurrencyViewHolder>(CurrencyDiffCallback()) {
     companion object {
         private const val TAG = "CurrencyAdapter"
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    var loadMore: () -> Unit = {}
+
+    override fun onBindViewHolder(holderCurrency: CurrencyViewHolder, position: Int) {
+
+        if (position >= itemCount - 1){
+            loadMore()
+        }
+
         val currency = getItem(position)
-        holder.apply {
+        holderCurrency.apply {
             bind(createOnClickListener(currency), currency)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ListItemCurrencyBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CurrencyViewHolder {
+        return CurrencyViewHolder(ListItemCurrencyBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     private fun createOnClickListener(currency: Currency): View.OnClickListener {
@@ -32,7 +39,7 @@ class CurrencyAdapter : ListAdapter<Currency, CurrencyAdapter.ViewHolder>(Curren
         }
     }
 
-    class ViewHolder(
+    class CurrencyViewHolder(
         private val binding: ListItemCurrencyBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 

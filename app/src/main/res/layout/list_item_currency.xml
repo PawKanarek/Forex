@@ -27,6 +27,7 @@
                 app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintVertical_bias="0.0"
                 android:layout_marginTop="8dp"
+                android:text="@{curremcy.name+ ` : ` +curremcy.value}"
                 tools:text="euro - 1.0"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
