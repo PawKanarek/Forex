@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="currency" type="pl.raix.dev.forex.data.Currency"/>
+        <variable name="currency" type="pl.raix.dev.forex.data.CurrencyModel"/>
     </data>
     <FrameLayout
             android:orientation="vertical"

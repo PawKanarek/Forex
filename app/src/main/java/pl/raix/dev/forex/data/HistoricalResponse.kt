@@ -8,5 +8,5 @@ data class HistoricalResponse(
     val date: String,
     private val rates: Map<String, Double>
 ) {
-    val currencyList: List<Currency> get() =  rates.map { Currency(it.key, it.value) }
+    val currencyList: List<CurrencyModel> get() =  rates.map { CurrencyModel(it.key, it.value, date) }
 }

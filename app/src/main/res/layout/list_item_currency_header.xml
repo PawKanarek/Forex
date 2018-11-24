@@ -21,13 +21,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
                 app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/currency_item_title"
+                android:id="@+id/currency_item_title_header"
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintVertical_bias="0.0"
                 android:layout_marginTop="8dp"
-                android:text="@{currency.name+ ` : ` +currency.value}"
+                android:text="@{currency.dateFrom}"
                 tools:text="euro - 1.0"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

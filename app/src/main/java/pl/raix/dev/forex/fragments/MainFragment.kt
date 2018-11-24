@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.android.volley.Response
 import pl.raix.dev.forex.adapters.CurrencyAdapter
+import pl.raix.dev.forex.data.CurrencyModel
+import pl.raix.dev.forex.data.CurrencyModelType
 import pl.raix.dev.forex.databinding.MainFragmentBinding
 import pl.raix.dev.forex.viewmodels.MainViewModel
 import java.util.*
@@ -49,7 +51,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-    fun loadMore() {
+    private fun loadMore() {
         if (viewModel.isDataLoading)
             return
 
@@ -59,27 +61,31 @@ class MainFragment : Fragment() {
         getHistoricalRates(calendar.time)
     }
 
-    fun getHistoricalRates(date: Date) {
+    private fun getHistoricalRates(date: Date) {
         viewModel.isDataLoading = true
 
         HttpManager.getInstance(context!!).getHistorical(date,
             Response.Listener { response ->
                 viewModel.isDataLoading = false
 
-                // TODO: use paging component from android-jetpack to avoid mutableList and notifyDataSetChanged in ViewModel observer
-                val currentData = viewModel.getCurrency().value
-                if (currentData == null) {
-                    viewModel.getCurrency().value = response.currencyList.toMutableList()
+                val headerModel = CurrencyModel("", 0.0, response.date)
+                headerModel.currencyModelType = CurrencyModelType.Header
+                val currencyList = response.currencyList.toMutableList()
+                currencyList.add(0, headerModel)
+
+                // TODO: use paging component from android-jetpack
+                val currentViewModelData = viewModel.getCurrency().value
+                if (currentViewModelData == null) {
+                    viewModel.getCurrency().value = currencyList
                 } else {
-                    currentData.addAll(response.currencyList)
-                    viewModel.getCurrency().value = currentData
+                    currentViewModelData.addAll(currencyList)
+                    viewModel.getCurrency().value = currentViewModelData
                 }
 
                 viewModel.currentDate = date
 
             }, Response.ErrorListener { error ->
                 viewModel.isDataLoading = false
-
                 Log.d(MainFragment.TAG, "error: %s".format(error.toString()))
             })
     }
