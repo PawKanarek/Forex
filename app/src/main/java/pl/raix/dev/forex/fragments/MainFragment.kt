@@ -32,11 +32,20 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        val binding = MainFragmentBinding.inflate(inflater, container, false)
+        bindUi(binding)
 
+        if (savedInstanceState == null) {
+            getHistoricalRates(viewModel.currentDate)
+        }
+
+        return binding.root
+    }
+
+    private fun bindUi(binding: MainFragmentBinding) {
         val adapter = CurrencyAdapter()
         adapter.loadMore = { loadMore() }
 
-        val binding = MainFragmentBinding.inflate(inflater, container, false)
         binding.forexHistoricalList.adapter = adapter
 
         viewModel.getCurrency().observe(this, androidx.lifecycle.Observer { newList ->
@@ -45,11 +54,8 @@ class MainFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         })
-
-        getHistoricalRates(viewModel.currentDate)
-
-        return binding.root
     }
+
 
     private fun loadMore() {
         if (viewModel.isDataLoading)

@@ -1,11 +1,13 @@
 package pl.raix.dev.forex.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import pl.raix.dev.forex.R
 import pl.raix.dev.forex.data.CurrencyModel
 import pl.raix.dev.forex.data.CurrencyModelType
 import pl.raix.dev.forex.databinding.ListItemCurrencyBinding
@@ -20,18 +22,16 @@ class CurrencyAdapter : ListAdapter<CurrencyModel, RecyclerView.ViewHolder>(Curr
 
     override fun onBindViewHolder(holderCurrency: RecyclerView.ViewHolder, position: Int) {
 
-        if (position >= itemCount - 1){
-            loadMore()
-        }
+        if (position >= itemCount - 1) loadMore()
 
         val currencyModel = getItem(position)
 
-        if (holderCurrency is CurrencyViewHolder){
-            holderCurrency.apply {
+        when (holderCurrency) {
+            is CurrencyViewHolder -> holderCurrency.apply {
                 bind(createOnClickListener(currencyModel), currencyModel)
             }
-        } else if (holderCurrency is CurrencyHeaderViewHolder) {
-            holderCurrency.apply {
+
+            is CurrencyHeaderViewHolder -> holderCurrency.apply {
                 bind(currencyModel)
             }
         }
@@ -44,17 +44,16 @@ class CurrencyAdapter : ListAdapter<CurrencyModel, RecyclerView.ViewHolder>(Curr
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == 0){
-            CurrencyViewHolder(ListItemCurrencyBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        } else{
-            CurrencyHeaderViewHolder(ListItemCurrencyHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return when (viewType) {
+            0 -> CurrencyViewHolder(ListItemCurrencyBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            else -> CurrencyHeaderViewHolder(ListItemCurrencyHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
     }
 
-    private fun createOnClickListener(currency: CurrencyModel): View.OnClickListener {
+    private fun createOnClickListener(currencyModel: CurrencyModel): View.OnClickListener {
         return View.OnClickListener {
-            Log.d(TAG, "currency on click!")
-//            it.findNavController().navigate()
+            val bundle = bundleOf("currencyModel" to currencyModel)
+            it.findNavController().navigate(R.id.action_main_fragment_to_currencyDetailsFragment, bundle)
         }
     }
 

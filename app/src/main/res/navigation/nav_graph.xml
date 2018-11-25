@@ -9,5 +9,20 @@
             android:id="@+id/main_fragment"
             android:name="pl.raix.dev.forex.fragments.MainFragment"
             tools:layout="@layout/main_fragment"
-            android:label="MainFragment"/>
+            android:label="MainFragment">
+        <action
+                android:id="@+id/action_main_fragment_to_currencyDetailsFragment"
+                app:destination="@id/currency_details_fragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/currency_details_fragment"
+            android:name="pl.raix.dev.forex.fragments.CurrencyDetailsFragment"
+            android:label="currency_details_fragment"
+            tools:layout="@layout/currency_details_fragment">
+        <argument
+                android:name="currencyModel"
+                android:defaultValue="@null"
+                app:nullable="true"
+                app:argType="pl.raix.dev.forex.data.CurrencyModel"/>
+    </fragment>
 </navigation>

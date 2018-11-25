@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 
-import pl.raix.dev.forex.R
+import pl.raix.dev.forex.data.CurrencyModel
+import pl.raix.dev.forex.databinding.CurrencyDetailsFragmentBinding
 import pl.raix.dev.forex.viewmodels.CurrencyViewModel
 
 class CurrencyDetailsFragment : Fragment() {
@@ -22,16 +23,16 @@ class CurrencyDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.currency_details_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(CurrencyViewModel::class.java)
-        // TODO: Use the ViewModel
+        val binding = CurrencyDetailsFragmentBinding.inflate(inflater, container, false)
+
+        bindUi(binding)
+
+        return binding.root
     }
 
-
-
-
+    private fun bindUi(binding: CurrencyDetailsFragmentBinding) {
+        viewModel.currencyModel.value = arguments?.get("currencyModel") as CurrencyModel
+        binding.currencyModel = viewModel.currencyModel.value
+    }
 }
