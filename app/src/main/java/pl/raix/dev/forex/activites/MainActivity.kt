@@ -2,7 +2,6 @@ package pl.raix.dev.forex.activites
 
 import HttpManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -17,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //init singleton
+        // init singleton
         HttpManager.getInstance(this.applicationContext)
         val binding = DataBindingUtil.setContentView<MainActivityBinding>(this, R.layout.main_activity)
         navController = findNavController(R.id.nav_host_fragment)
@@ -28,6 +27,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
-
 }

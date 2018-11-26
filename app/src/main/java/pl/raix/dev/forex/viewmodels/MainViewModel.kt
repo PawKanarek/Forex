@@ -3,7 +3,8 @@ package pl.raix.dev.forex.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import pl.raix.dev.forex.data.CurrencyModel
-import java.util.*
+import java.util.Date
+import java.util.Calendar
 
 class MainViewModel : ViewModel() {
 

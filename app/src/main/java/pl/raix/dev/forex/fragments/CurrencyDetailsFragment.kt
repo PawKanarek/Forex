@@ -20,7 +20,8 @@ class CurrencyDetailsFragment : Fragment() {
     private lateinit var viewModel: CurrencyViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         viewModel = ViewModelProviders.of(this).get(CurrencyViewModel::class.java)

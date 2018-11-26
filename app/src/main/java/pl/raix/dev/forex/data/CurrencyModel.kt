@@ -7,7 +7,7 @@ data class CurrencyModel(
     val name: String,
     val value: Double,
     val dateFrom: String?
-) :Parcelable {
+) : Parcelable {
     constructor(name: String, value: Double) : this(name, value, null)
 
     var currencyModelType: CurrencyModelType = CurrencyModelType.Currency

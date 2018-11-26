@@ -6,7 +6,8 @@ import com.android.volley.toolbox.Volley
 import pl.raix.dev.forex.api.GsonRequest
 import pl.raix.dev.forex.data.HistoricalResponse
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import java.util.Date
 
 class HttpManager constructor(context: Context) {
     companion object {

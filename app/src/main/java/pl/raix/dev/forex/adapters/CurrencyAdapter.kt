@@ -37,7 +37,6 @@ class CurrencyAdapter : ListAdapter<CurrencyModel, RecyclerView.ViewHolder>(Curr
                 bind(currencyModel)
             }
         }
-
     }
 
     override fun getItemViewType(position: Int): Int {

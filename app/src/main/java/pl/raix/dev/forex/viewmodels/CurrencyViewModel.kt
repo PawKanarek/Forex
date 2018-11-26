@@ -6,5 +6,4 @@ import pl.raix.dev.forex.data.CurrencyModel
 
 class CurrencyViewModel : ViewModel() {
     val currencyModel: MutableLiveData<CurrencyModel> by lazy { MutableLiveData<CurrencyModel>() }
-
 }

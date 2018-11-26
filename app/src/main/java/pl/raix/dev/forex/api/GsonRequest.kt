@@ -19,7 +19,6 @@ class GsonRequest<T>(
 ) : Request<T>(Method.GET, url, errorListener) {
     private val gson = Gson()
 
-
     override fun getHeaders(): MutableMap<String, String> = headers ?: super.getHeaders()
 
     override fun deliverResponse(response: T) = listener.onResponse(response)

@@ -15,7 +15,8 @@ import pl.raix.dev.forex.data.CurrencyModelType
 import pl.raix.dev.forex.data.HistoricalResponse
 import pl.raix.dev.forex.databinding.MainFragmentBinding
 import pl.raix.dev.forex.viewmodels.MainViewModel
-import java.util.*
+import java.util.Date
+import java.util.Calendar
 
 class MainFragment : Fragment() {
 
@@ -56,7 +57,6 @@ class MainFragment : Fragment() {
         })
     }
 
-
     private fun loadMore() {
         if (viewModel.isDataLoading)
             return
@@ -95,7 +95,6 @@ class MainFragment : Fragment() {
                         viewModel.getCurrency().value = currentViewModelData
                     }
                 }
-
             }, Response.ErrorListener { error ->
                 viewModel.isDataLoading = false
                 Log.d(MainFragment.TAG, "error: %s".format(error.toString()))
@@ -103,11 +102,10 @@ class MainFragment : Fragment() {
     }
 
     private fun handleError(response: HistoricalResponse) {
-        //fast & ugly workaround for bad date problem (sometimes rates from today aren'r generated in fixer portal)
+        // fast & ugly workaround for bad date problem (sometimes rates from today aren'r generated in fixer portal)
         val code = response.error.getValue("code")
         if (code == "302") {
             loadMore()
         }
     }
 }
-
