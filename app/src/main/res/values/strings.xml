@@ -2,4 +2,8 @@
     <string name="app_name">Forex</string>
     <string name="from_day">dnia</string>
     <string name="currency_from_day">kurs z dnia</string>
+    <string name="image_flag">image flag for currency rate</string>
+    <string name="exchange_rates">Kursy walut</string>
+    <string name="details">Szczegóły</string>
+    <string name="tap_again_to_exit">Naciśnij wstecz jeszcze raz aby wyjść</string>
 </resources>

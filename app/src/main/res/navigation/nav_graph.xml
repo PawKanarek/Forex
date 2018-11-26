@@ -9,15 +9,19 @@
             android:id="@+id/main_fragment"
             android:name="pl.raix.dev.forex.fragments.MainFragment"
             tools:layout="@layout/main_fragment"
-            android:label="MainFragment">
+            android:label="@string/exchange_rates">
         <action
                 android:id="@+id/action_main_fragment_to_currencyDetailsFragment"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"
                 app:destination="@id/currency_details_fragment"/>
     </fragment>
     <fragment
             android:id="@+id/currency_details_fragment"
             android:name="pl.raix.dev.forex.fragments.CurrencyDetailsFragment"
-            android:label="currency_details_fragment"
+            android:label="@string/details"
             tools:layout="@layout/currency_details_fragment">
         <argument
                 android:name="currencyModel"

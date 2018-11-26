@@ -12,6 +12,7 @@ import com.android.volley.Response
 import pl.raix.dev.forex.adapters.CurrencyAdapter
 import pl.raix.dev.forex.data.CurrencyModel
 import pl.raix.dev.forex.data.CurrencyModelType
+import pl.raix.dev.forex.data.HistoricalResponse
 import pl.raix.dev.forex.databinding.MainFragmentBinding
 import pl.raix.dev.forex.viewmodels.MainViewModel
 import java.util.*
@@ -25,7 +26,6 @@ class MainFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
         val binding = MainFragmentBinding.inflate(inflater, container, false)
         bindUi(binding)
 
-        if (savedInstanceState == null) {
+        if (viewModel.getCurrency().value?.isEmpty() != false) {
             getHistoricalRates(viewModel.currentDate)
         }
 
@@ -74,26 +74,40 @@ class MainFragment : Fragment() {
             Response.Listener { response ->
                 viewModel.isDataLoading = false
 
-                val headerModel = CurrencyModel("", 0.0, response.date)
-                headerModel.currencyModelType = CurrencyModelType.Header
-                val currencyList = response.currencyList.toMutableList()
-                currencyList.add(0, headerModel)
-
-                // TODO: use paging component from android-jetpack
-                val currentViewModelData = viewModel.getCurrency().value
-                if (currentViewModelData == null) {
-                    viewModel.getCurrency().value = currencyList
-                } else {
-                    currentViewModelData.addAll(currencyList)
-                    viewModel.getCurrency().value = currentViewModelData
+                if (!response.success) {
+                    handleError(response)
+                    return@Listener
                 }
 
                 viewModel.currentDate = date
+                if (!response.currencyList.isEmpty()) {
+                    val headerModel = CurrencyModel("", 0.0, response.date)
+                    headerModel.currencyModelType = CurrencyModelType.Header
+                    val currencyList = response.currencyList.toMutableList()
+                    currencyList.add(0, headerModel)
+
+                    // TODO: use paging component from android-jetpack
+                    val currentViewModelData = viewModel.getCurrency().value
+                    if (currentViewModelData == null) {
+                        viewModel.getCurrency().value = currencyList
+                    } else {
+                        currentViewModelData.addAll(currencyList)
+                        viewModel.getCurrency().value = currentViewModelData
+                    }
+                }
 
             }, Response.ErrorListener { error ->
                 viewModel.isDataLoading = false
                 Log.d(MainFragment.TAG, "error: %s".format(error.toString()))
             })
+    }
+
+    private fun handleError(response: HistoricalResponse) {
+        //fast & ugly workaround for bad date problem (sometimes rates from today aren'r generated in fixer portal)
+        val code = response.error.getValue("code")
+        if (code == "302") {
+            loadMore()
+        }
     }
 }
 

@@ -25,7 +25,7 @@ class CurrencyDetailsFragment : Fragment() {
     ): View? {
         viewModel = ViewModelProviders.of(this).get(CurrencyViewModel::class.java)
         val binding = CurrencyDetailsFragmentBinding.inflate(inflater, container, false)
-
+        activity?.title = "Details fragment"
         bindUi(binding)
 
         return binding.root

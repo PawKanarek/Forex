@@ -1,5 +1,6 @@
 package pl.raix.dev.forex.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import pl.raix.dev.forex.databinding.ListItemCurrencyHeaderBinding
 class CurrencyAdapter : ListAdapter<CurrencyModel, RecyclerView.ViewHolder>(CurrencyDiffCallback()) {
     companion object {
         private const val TAG = "CurrencyAdapter"
+        private var index = 0
     }
 
     var loadMore: () -> Unit = {}
@@ -35,6 +37,7 @@ class CurrencyAdapter : ListAdapter<CurrencyModel, RecyclerView.ViewHolder>(Curr
                 bind(currencyModel)
             }
         }
+
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -44,6 +47,8 @@ class CurrencyAdapter : ListAdapter<CurrencyModel, RecyclerView.ViewHolder>(Curr
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        index++
+        Log.v(TAG, "created viewholders: $index")
         return when (viewType) {
             0 -> CurrencyViewHolder(ListItemCurrencyBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             else -> CurrencyHeaderViewHolder(ListItemCurrencyHeaderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
